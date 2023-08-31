@@ -42,6 +42,7 @@ http://localhost:8000/swagger/index.html
 2. Можно импортнуть файл AvitoTechBackendTrainee.postman_collection.json из корня проекта  в Postman
 
 Примеры запросов: 
+
 GET http://localhost:8000/api/sections/users/3 
 Ответ: [
     "NEW_SECTION_TEST_2",
