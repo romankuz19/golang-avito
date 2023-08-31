@@ -34,10 +34,14 @@ func (r *SectionPostgres) Create(name string) error {
 
 func (r *SectionPostgres) Delete(name string) error {
 
-	query := fmt.Sprintf("DELETE FROM %s WHERE name = $1", sectionsTable)
-	_, err := r.db.Exec(query, convertSlug(name))
+	if name != "" {
+		query := fmt.Sprintf("DELETE FROM %s WHERE name = $1", sectionsTable)
+		_, err := r.db.Exec(query, convertSlug(name))
+		return err
+	} else {
+		return fmt.Errorf("Empty name")
+	}
 
-	return err
 }
 
 func (r *SectionPostgres) AddUser(sectionsAdd []string, sectionsDelete []string, userId int) error {
