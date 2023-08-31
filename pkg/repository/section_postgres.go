@@ -2,7 +2,9 @@ package repository
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -10,6 +12,8 @@ import (
 type SectionPostgres struct {
 	db *sqlx.DB
 }
+
+var history *HistoryPostgres
 
 func NewSectionPostgres(db *sqlx.DB) *SectionPostgres {
 	return &SectionPostgres{db: db}
@@ -63,6 +67,16 @@ func (r *SectionPostgres) AddUser(sectionsAdd []string, sectionsDelete []string,
 				if err != nil {
 					return err
 				}
+
+				sectionId, err := strconv.Atoi(add[0])
+				query := fmt.Sprintf("INSERT INTO %s (user_id, section_id, operation_type, operation_date) VALUES ($1, $2, $3, $4)", historyTable)
+				_, err = r.db.Exec(query, userId, sectionId, "addition", time.Now())
+				if err != nil {
+					return err
+				}
+
+				return err
+
 			}
 		}
 
@@ -82,6 +96,13 @@ func (r *SectionPostgres) AddUser(sectionsAdd []string, sectionsDelete []string,
 			query = fmt.Sprintf("DELETE FROM %s WHERE user_id = $1 and section_id = $2",
 				usersSectionsTable)
 			_, err = r.db.Exec(query, userId, delete[0])
+			if err != nil {
+				return err
+			}
+
+			sectionId, err := strconv.Atoi(delete[0])
+			query := fmt.Sprintf("INSERT INTO %s (user_id, section_id, operation_type, operation_date) VALUES ($1, $2, $3, $4)", historyTable)
+			_, err = r.db.Exec(query, userId, sectionId, "deletion", time.Now())
 			if err != nil {
 				return err
 			}

@@ -26,6 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		users := api.Group("users")
 		{
 			users.POST("/", h.createUser)
+			users.GET("/:id/history", h.getUserHistory)
 		}
 		sections := api.Group("sections")
 		{

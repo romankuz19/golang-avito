@@ -204,9 +204,73 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/users/:id/history": {
+            "post": {
+                "description": "get user history",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user history",
+                "operationId": "get-user-history",
+                "parameters": [
+                    {
+                        "description": "date",
+                        "name": "requestBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.HistoryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/avitoproj.UserHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "message: Failed",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "avitoproj.UserHistory": {
+            "type": "object",
+            "properties": {
+                "operationDate": {
+                    "type": "string"
+                },
+                "operationType": {
+                    "type": "string"
+                },
+                "sectionId": {
+                    "type": "integer"
+                },
+                "sectionName": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
         "handler.AddDeleteSections": {
             "type": "object",
             "properties": {
@@ -221,6 +285,14 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "handler.HistoryRequestBody": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
                 }
             }
         },

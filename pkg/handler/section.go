@@ -104,7 +104,6 @@ func (h *Handler) addUser(c *gin.Context) {
 			"message": "Success",
 		})
 	}
-
 }
 
 // @Summary Get user sections
