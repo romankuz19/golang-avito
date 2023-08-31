@@ -79,10 +79,10 @@ body {
 }
 
 DELETE http://localhost:8000/api/sections/
-body{
-    "Slug": 999
+body {
+    "Slug": ""
 }
-Ответ: {"message":"Incorrect input"}
+Ответ: {"message":"Failed"}
 ### О приложении
 
 В приложении реализованы 5 методов:
