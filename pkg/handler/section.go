@@ -7,10 +7,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type SectionRequestBody struct {
+	Slug string
+}
+
+type Data struct {
+	SectionsAdd    []string
+	SectionsDelete []string
+}
+
+// @Summary Create new section
+// @Tags sections
+// @Description create new section
+// @ID create-section
+// @Accept  json
+// @Produce  json
+// @Param requestBody body SectionRequestBody true "section (slug) name"
+// @Success 200 {integer} json "message: Section created"
+// @Failure 400 {integer} json "message: Failed"
+// @Router /api/sections [post]
 func (h *Handler) createSection(c *gin.Context) {
-	type SectionRequestBody struct {
-		Slug string
-	}
+
 	var requestBody SectionRequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
@@ -29,10 +46,18 @@ func (h *Handler) createSection(c *gin.Context) {
 	}
 }
 
+// @Summary Delete section
+// @Tags sections
+// @Description delete section
+// @ID delete-section
+// @Accept  json
+// @Produce  json
+// @Param requestBody body SectionRequestBody true "section (slug) name"
+// @Success 200 {integer} json "message: Section deleted"
+// @Failure 400 {integer} json "message: Failed"
+// @Router /api/sections [delete]
 func (h *Handler) deleteSection(c *gin.Context) {
-	type SectionRequestBody struct {
-		Slug string
-	}
+
 	var requestBody SectionRequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
@@ -51,15 +76,19 @@ func (h *Handler) deleteSection(c *gin.Context) {
 	}
 }
 
+// @Summary Add user in section
+// @Tags sections-users
+// @Description add or delete user in sections
+// @ID add-user
+// @Accept  json
+// @Produce  json
+// @Param requestBody body Data true "list of sections to add or delete"
+// @Success 200 {integer} json "message: Success"
+// @Failure 400 {integer} json "message: Failed"
+// @Router /api/sections/users/:id [put]
 func (h *Handler) addUser(c *gin.Context) {
 
-	type Data struct {
-		SectionsAdd    []string
-		SectionsDelete []string
-	}
-
 	var requestBody Data
-
 	if err := c.BindJSON(&requestBody); err != nil {
 		panic(err)
 	}
@@ -77,8 +106,20 @@ func (h *Handler) addUser(c *gin.Context) {
 	}
 
 }
+
+// @Summary Get user sections
+// @Tags sections-users
+// @Description get user sections
+// @ID get-user-sections
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} string
+// @Failure 400
+// @Router /api/sections/users/:id [get]
 func (h *Handler) getUserSections(c *gin.Context) {
+
 	var sections []string
+
 	userId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		panic(err)
