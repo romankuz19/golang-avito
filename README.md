@@ -41,7 +41,47 @@ docker-compose up avito-proj
 http://localhost:8000/swagger/index.html
 2. Можно импортнуть файл AvitoTechBackendTrainee.postman_collection.json из корня проекта  в Postman
 
+Примеры запросов: 
+GET http://localhost:8000/api/sections/users/3 
+Ответ: [
+    "NEW_SECTION_TEST_2",
+    "NEW_SECTION_TEST_10001",
+    "NEW_SECTION_TEST_3"
+]
 
+GET http://localhost:8000/api/users/6/history
+body { "Date": "2023-08" }
+Ответ: [
+    {
+        "UserId": 6,
+        "SectionId": 18,
+        "OperationType": "addition",
+        "OperationDate": "2023-08-31T18:10:52.565604Z",
+        "SectionName": "NEW_SECTION_TEST_99"
+    },
+    {
+        "UserId": 6,
+        "SectionId": 18,
+        "OperationType": "deletion",
+        "OperationDate": "2023-08-31T18:14:34.639106Z",
+        "SectionName": "NEW_SECTION_TEST_99"
+    }
+]
+
+PUT http://localhost:8000/api/sections/users/3
+body {
+    "SectionsAdd": ["new-section-test-3"],
+    "SectionsDelete": []
+}
+Ответ: {
+    "message": "Success"
+}
+
+DELETE http://localhost:8000/api/sections/
+body{
+    "Slug": 999
+}
+Ответ: {"message":"Incorrect input"}
 ### О приложении
 
 В приложении реализованы 5 методов:
