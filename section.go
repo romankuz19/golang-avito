@@ -1,10 +1,8 @@
 package avitoproj
 
-// import "errors"
-
 type Section struct {
 	Id   int    `json:"id" db:"id"`
-	Name string `json:"title" db:"title" binding:"required"`
+	Name string `json:"name" db:"name" binding:"required"`
 }
 
 type UsersSectionList struct {
