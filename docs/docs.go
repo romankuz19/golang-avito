@@ -221,7 +221,7 @@ const docTemplate = `{
                 "operationId": "get-user-history",
                 "parameters": [
                     {
-                        "description": "date",
+                        "description": "date ('YY-MM')",
                         "name": "requestBody",
                         "in": "body",
                         "required": true,

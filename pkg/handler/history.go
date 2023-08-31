@@ -18,7 +18,7 @@ type HistoryRequestBody struct {
 // @ID get-user-history
 // @Accept  json
 // @Produce  json
-// @Param requestBody body HistoryRequestBody true "date"
+// @Param requestBody body HistoryRequestBody true "date ('YY-MM')"
 // @Success 200 {array} avitoproj.UserHistory
 // @Failure 400 {integer} json "message: Failed"
 // @Router /api/users/:id/history [post]
@@ -26,18 +26,25 @@ func (h *Handler) getUserHistory(c *gin.Context) {
 
 	var requestBody HistoryRequestBody
 	var history []avitoproj.UserHistory
-
 	if err := c.BindJSON(&requestBody); err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Incorrect input",
+		})
 	}
 	userId, err := strconv.Atoi(c.Param("id"))
-	history = h.services.History.GetUserHistory(userId, requestBody.Date)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed",
+			"message": "Bad query params",
 		})
 	} else {
-		c.JSON(http.StatusOK, history)
+		history = h.services.History.GetUserHistory(userId, requestBody.Date)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Failed",
+			})
+		} else {
+			c.JSON(http.StatusOK, history)
+		}
 	}
 
 }

@@ -18,12 +18,15 @@ func NewHistoryPostgres(db *sqlx.DB) *HistoryPostgres {
 }
 
 func (r *HistoryPostgres) GetUserHistory(userId int, date string) []avitoproj.UserHistory {
-	res1 := strings.Split(date, "-")
-	year, err := strconv.Atoi(res1[0])
+	splitDate := strings.Split(date, "-")
+	year, err := strconv.Atoi(splitDate[0])
 	if err != nil {
-		//
+		panic("Bad date input")
 	}
-	month, err := strconv.Atoi(res1[1])
+	month, err := strconv.Atoi(splitDate[1])
+	if err != nil {
+		panic("Bad date input")
+	}
 	query := fmt.Sprintf("SELECT h.user_id, h.section_id, h.operation_type, h.operation_date, s.name FROM %s h INNER JOIN %s s ON h.section_id = s.id WHERE EXTRACT(YEAR FROM operation_date) = $1 AND EXTRACT(MONTH FROM operation_date) = $2 AND h.user_id = $3 ", historyTable, sectionsTable)
 	var history []avitoproj.UserHistory
 
@@ -32,8 +35,9 @@ func (r *HistoryPostgres) GetUserHistory(userId int, date string) []avitoproj.Us
 
 	for rows.Next() {
 		var h avitoproj.UserHistory
-		err = rows.Scan(&h.UserId, &h.SectionId, &h.OperationType, &h.OperationDate, &h.SectionName)
+		rows.Scan(&h.UserId, &h.SectionId, &h.OperationType, &h.OperationDate, &h.SectionName)
 		history = append(history, h)
 	}
+
 	return history
 }

@@ -179,7 +179,7 @@ paths:
       description: get user history
       operationId: get-user-history
       parameters:
-      - description: date
+      - description: date ('YY-MM')
         in: body
         name: requestBody
         required: true

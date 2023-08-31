@@ -25,7 +25,9 @@ func (h *Handler) createUser(c *gin.Context) {
 	var requestBody UserRequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Incorrect input",
+		})
 	}
 
 	err := h.services.User.Create(requestBody.Name)

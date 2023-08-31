@@ -31,7 +31,9 @@ func (h *Handler) createSection(c *gin.Context) {
 	var requestBody SectionRequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Incorrect input",
+		})
 	}
 
 	err := h.services.Section.Create(requestBody.Slug)
@@ -61,7 +63,9 @@ func (h *Handler) deleteSection(c *gin.Context) {
 	var requestBody SectionRequestBody
 
 	if err := c.BindJSON(&requestBody); err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Incorrect input",
+		})
 	}
 
 	err := h.services.Section.Delete(requestBody.Slug)
@@ -90,20 +94,29 @@ func (h *Handler) addUser(c *gin.Context) {
 
 	var requestBody AddDeleteSections
 	if err := c.BindJSON(&requestBody); err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Incorrect input",
+		})
 	}
 
 	userId, err := strconv.Atoi(c.Param("id"))
-	err = h.services.Section.AddUser(requestBody.SectionsAdd, requestBody.SectionsDelete, userId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed",
+			"message": "Bad query params",
 		})
 	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Success",
-		})
+		err = h.services.Section.AddUser(requestBody.SectionsAdd, requestBody.SectionsDelete, userId)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Failed",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Success",
+			})
+		}
 	}
+
 }
 
 // @Summary Get user sections
@@ -113,7 +126,7 @@ func (h *Handler) addUser(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} string
-// @Failure 400
+// @Failure 400 {integer} json "message: Failed"
 // @Router /api/sections/users/:id [get]
 func (h *Handler) getUserSections(c *gin.Context) {
 
@@ -121,8 +134,11 @@ func (h *Handler) getUserSections(c *gin.Context) {
 
 	userId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad query params",
+		})
+	} else {
+		sections = h.services.Section.GetUserSections(userId)
+		c.JSON(http.StatusOK, sections)
 	}
-	sections = h.services.Section.GetUserSections(userId)
-	c.JSON(http.StatusOK, sections)
 }
