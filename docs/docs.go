@@ -120,7 +120,10 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "message: Failed",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 }
             },

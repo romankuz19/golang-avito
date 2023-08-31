@@ -115,7 +115,9 @@ paths:
               type: string
             type: array
         "400":
-          description: Bad Request
+          description: 'message: Failed'
+          schema:
+            type: integer
       summary: Get user sections
       tags:
       - sections-users
