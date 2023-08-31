@@ -66,18 +66,19 @@ func (h *Handler) deleteSection(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Incorrect input",
 		})
+	} else {
+		err := h.services.Section.Delete(requestBody.Slug)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Failed",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Section deleted",
+			})
+		}
 	}
 
-	err := h.services.Section.Delete(requestBody.Slug)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed",
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Section deleted",
-		})
-	}
 }
 
 // @Summary Add user in section
