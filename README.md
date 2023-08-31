@@ -2,7 +2,11 @@
 
 ### Для запуска приложения через docker-compose:
 
-1. Добавить .env файл в корень проекта с полем DB_PASSWORD = "MySuperPassword"
+1. Добавить .env файл в корень проекта с полем 
+
+```
+DB_PASSWORD = "MySuperPassword"
+```
 
 2. Выполнить команду
 
