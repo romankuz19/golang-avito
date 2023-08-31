@@ -1,0 +1,7 @@
+port: "8000"
+db:
+    username: "my_user"
+    host: "db"
+    port: "5432"
+    dbname: "my_db"
+    sslmode: "disable"
