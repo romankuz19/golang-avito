@@ -15,9 +15,12 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 }
 
 func (r *UserPostgres) Create(name string) error {
+	if name != "" {
+		query := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1)", usersTable)
+		_, err := r.db.Exec(query, name)
 
-	query := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1)", usersTable)
-	_, err := r.db.Exec(query, name)
-
-	return err
+		return err
+	} else {
+		return fmt.Errorf("Empty name")
+	}
 }

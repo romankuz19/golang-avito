@@ -138,7 +138,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.Data"
+                            "$ref": "#/definitions/handler.AddDeleteSections"
                         }
                     }
                 ],
@@ -201,7 +201,7 @@
         }
     },
     "definitions": {
-        "handler.Data": {
+        "handler.AddDeleteSections": {
             "type": "object",
             "properties": {
                 "sectionsAdd": {

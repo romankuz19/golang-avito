@@ -11,7 +11,7 @@ type SectionRequestBody struct {
 	Slug string
 }
 
-type Data struct {
+type AddDeleteSections struct {
 	SectionsAdd    []string
 	SectionsDelete []string
 }
@@ -82,13 +82,13 @@ func (h *Handler) deleteSection(c *gin.Context) {
 // @ID add-user
 // @Accept  json
 // @Produce  json
-// @Param requestBody body Data true "list of sections to add or delete"
+// @Param requestBody body AddDeleteSections true "list of sections to add or delete"
 // @Success 200 {integer} json "message: Success"
 // @Failure 400 {integer} json "message: Failed"
 // @Router /api/sections/users/:id [put]
 func (h *Handler) addUser(c *gin.Context) {
 
-	var requestBody Data
+	var requestBody AddDeleteSections
 	if err := c.BindJSON(&requestBody); err != nil {
 		panic(err)
 	}

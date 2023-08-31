@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  handler.Data:
+  handler.AddDeleteSections:
     properties:
       sectionsAdd:
         items:
@@ -112,7 +112,7 @@ paths:
         name: requestBody
         required: true
         schema:
-          $ref: '#/definitions/handler.Data'
+          $ref: '#/definitions/handler.AddDeleteSections'
       produces:
       - application/json
       responses:

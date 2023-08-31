@@ -144,7 +144,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.Data"
+                            "$ref": "#/definitions/handler.AddDeleteSections"
                         }
                     }
                 ],
@@ -207,7 +207,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handler.Data": {
+        "handler.AddDeleteSections": {
             "type": "object",
             "properties": {
                 "sectionsAdd": {

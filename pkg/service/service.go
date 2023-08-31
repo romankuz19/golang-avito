@@ -2,6 +2,8 @@ package service
 
 import "github.com/romankuz19/avito-proj/pkg/repository"
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Section interface {
 	Create(name string) error
 	Delete(name string) error

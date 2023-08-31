@@ -17,10 +17,14 @@ func NewSectionPostgres(db *sqlx.DB) *SectionPostgres {
 
 func (r *SectionPostgres) Create(name string) error {
 
-	query := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1)", sectionsTable)
-	_, err := r.db.Exec(query, convertSlug(name))
+	if name != "" {
+		query := fmt.Sprintf("INSERT INTO %s (name) VALUES ($1)", sectionsTable)
+		_, err := r.db.Exec(query, convertSlug(name))
 
-	return err
+		return err
+	} else {
+		return fmt.Errorf("Empty name")
+	}
 
 }
 
